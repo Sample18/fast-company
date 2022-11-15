@@ -11,7 +11,7 @@ const App = () => {
     }
 
     const handlerChangeBookmark = (id) => {
-        const userId = users.findIndex(i => i._id === id)
+        const userId = users.findIndex(user => user._id === id)
         const favUsers = [...users]
         favUsers[userId].bookmark = !favUsers[userId].bookmark
         setUsers(favUsers)
