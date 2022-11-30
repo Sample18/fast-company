@@ -12,7 +12,7 @@ const Bookmark = ({ bookmark, _id, onChangeBookmark }) => {
 
 Bookmark.propTypes = {
     bookmark: PropTypes.bool.isRequired,
-    _id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     onChangeBookmark: PropTypes.func.isRequired
 };
 
