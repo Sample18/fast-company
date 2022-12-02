@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import GroupList from "./groupList";
 import API from "../api";
 import SearchStatus from "./searchStatus";
+import _ from "lodash";
 
 const Users = ({ users, ...rest }) => {
     const pageSize = 2;
@@ -14,7 +15,7 @@ const Users = ({ users, ...rest }) => {
     const [selectedProf, setSelectedProf] = useState();
 
     const filteredUsers = selectedProf
-        ? users.filter((user) => user.profession === selectedProf)
+        ? users.filter((user) => _.isEqual(user.profession, selectedProf))
         : users;
 
     const count = filteredUsers.length;
@@ -39,6 +40,12 @@ const Users = ({ users, ...rest }) => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
+
+    useEffect(() => {
+        if (userCrop.length === 0 && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }, [userCrop]);
 
     return (
         <div className="d-flex">
