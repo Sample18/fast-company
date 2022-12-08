@@ -13,16 +13,14 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         }
     };
     const handleCaret = (path) => {
-        if (path) {
-            if (path === selectedSort.path) {
-                return (
-                    <i
-                        className={`bi bi-caret-${
-                            selectedSort.order === "asc" ? "up" : "down"
-                        }-fill`}
-                    ></i>
-                );
-            }
+        if (path && path === selectedSort.path) {
+            return (
+                <i
+                    className={`bi bi-caret-${
+                        selectedSort.order === "asc" ? "up" : "down"
+                    }-fill`}
+                />
+            );
         }
     };
     return (
