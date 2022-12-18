@@ -1,35 +1,43 @@
-import React from "react";
-import Qualiti from "./qualiti";
-import Bookmark from "./bookmark";
+import { React, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+import API from "../api";
+import Loader from "./loader";
+import QualitiesList from "./qualitiesList";
 
-const props = (props) => {
-    return (
-        <tr>
-            <td>{props.name}</td>
-            <td>
-                {props.qualities.map((q) => (
-                    <Qualiti {...q} key={q._id} />
-                ))}
-            </td>
-            <td>{props.profession.name}</td>
-            <td>{props.completedMeetings}</td>
-            <td>{props.rate}/5</td>
-            <td>
-                <Bookmark
-                    onChangeBookmark={props.onChangeBookmark}
-                    {...props}
-                />
-            </td>
-            <td>
+const User = ({ id }) => {
+    const [user, setUser] = useState();
+    const history = useHistory();
+    useEffect(() => {
+        API.users.getById(id).then((data) => setUser(data));
+    }, []);
+    const handleDown = () => history.replace("/users");
+
+    if (user) {
+        return (
+            <>
+                <h1>{user.name}</h1>
+                <h3>Профессия: {user.profession.name}</h3>
+                <h3>
+                    Качества: <QualitiesList qualities={user.qualities} />
+                </h3>
+                <h3>Встреч всего: {user.completedMeetings}</h3>
+                <h3>Рейтинг: {user.rate}</h3>
                 <button
-                    className="m-1 btn btn-danger"
-                    onClick={() => props.onDelete(props._id)}
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => handleDown()}
                 >
-                    delete
+                    Все пользователи
                 </button>
-            </td>
-        </tr>
-    );
+            </>
+        );
+    }
+    return <Loader />;
 };
 
-export default props;
+User.propTypes = {
+    id: PropTypes.string.isRequired
+};
+
+export default User;
