@@ -1,9 +1,9 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import Users from "./components/layout/users";
+import { Redirect, Route, Switch } from "react-router-dom";
 import NavBar from "./components/navBar";
-import Main from "./components/layout/main";
-import Login from "./components/layout/login";
+import Main from "./layout/main";
+import Login from "./layout/login";
+import Users from "./layout/users";
 
 const App = () => {
     return (
@@ -13,6 +13,7 @@ const App = () => {
                 <Route path="/" exact component={Main} />
                 <Route path="/login" component={Login} />
                 <Route path="/users/:userId?" component={Users} />
+                <Redirect to="/" />
             </Switch>
         </>
     );

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { paginate } from "../../utils/paginate";
-import Pagination from "../pagination";
+import { paginate } from "../utils/paginate";
+import Pagination from "./pagination";
 import PropTypes from "prop-types";
-import GroupList from "../groupList";
-import API from "../../api";
-import SearchStatus from "../searchStatus";
+import GroupList from "./groupList";
+import API from "../api";
+import SearchStatus from "./searchStatus";
 import _ from "lodash";
-import UserTable from "../usersTable";
-import Loader from "../loader";
-import { useParams } from "react-router-dom";
-import User from "../user";
+import UserTable from "./usersTable";
+import Loader from "./loader";
 
-const Users = () => {
+const UsersList = () => {
     const [users, setUsers] = useState();
     useEffect(() => {
         API.users.fetchAll().then((data) => setUsers(data));
@@ -57,12 +55,6 @@ const Users = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
-
-    const { userId } = useParams();
-
-    if (userId) {
-        return <User id={userId} />;
-    }
 
     if (users) {
         const filteredUsers = selectedProf
@@ -124,8 +116,8 @@ const Users = () => {
     return <Loader />;
 };
 
-Users.propTypes = {
+UsersList.propTypes = {
     users: PropTypes.array
 };
 
-export default Users;
+export default UsersList;

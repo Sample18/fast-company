@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import { Link } from "react-router-dom";
 
 const TableBody = ({ data, columns }) => {
     const renderContent = (item, column) => {
@@ -12,9 +11,8 @@ const TableBody = ({ data, columns }) => {
             }
             return component;
         }
-        const newItem = JSON.parse(JSON.stringify(item));
-        newItem.name = <Link to={`/users/${newItem._id}`}>{newItem.name}</Link>;
-        return _.get(newItem, columns[column].path);
+
+        return _.get(item, columns[column].path);
     };
     return (
         <tbody>
