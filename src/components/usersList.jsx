@@ -8,9 +8,11 @@ import SearchStatus from "./searchStatus";
 import _ from "lodash";
 import UserTable from "./usersTable";
 import Loader from "./loader";
+import TextField from "./textField";
 
 const UsersList = () => {
     const [users, setUsers] = useState();
+    const [searchValue, setSearchValue] = useState("");
     useEffect(() => {
         API.users.fetchAll().then((data) => setUsers(data));
     }, []);
@@ -24,6 +26,10 @@ const UsersList = () => {
         const favUsers = [...users];
         favUsers[userId].bookmark = !favUsers[userId].bookmark;
         setUsers(favUsers);
+    };
+
+    const handleSearchChange = ({ target }) => {
+        setSearchValue(target.value.trim());
     };
 
     const pageSize = 8;
@@ -54,12 +60,25 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
+        setSearchValue("");
     }, [selectedProf]);
 
+    useEffect(() => {
+        if (searchValue && selectedProf) {
+            setSelectedProf();
+        }
+    }, [searchValue]);
+
     if (users) {
+        const searchedUsers = users.filter(
+            (user) =>
+                user.name.toLowerCase().indexOf(searchValue.toLowerCase()) !==
+                -1
+        );
+
         const filteredUsers = selectedProf
             ? users.filter((user) => _.isEqual(user.profession, selectedProf))
-            : users;
+            : searchedUsers;
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
@@ -92,6 +111,14 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <TextField
+                        label=""
+                        type="search"
+                        name="search"
+                        placeholder="Search..."
+                        value={searchValue}
+                        onChange={handleSearchChange}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={userCrop}
