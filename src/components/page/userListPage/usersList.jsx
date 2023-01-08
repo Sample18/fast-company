@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { paginate } from "../utils/paginate";
-import Pagination from "./pagination";
+import { paginate } from "../../../utils/paginate";
+import Pagination from "../../common/pagination";
 import PropTypes from "prop-types";
-import GroupList from "./groupList";
-import API from "../api";
-import SearchStatus from "./searchStatus";
+import GroupList from "../../common/groupList";
+import API from "../../../api";
+import SearchStatus from "../../ui/searchStatus";
 import _ from "lodash";
-import UserTable from "./usersTable";
-import Loader from "./loader";
-import TextField from "./textField";
+import UserTable from "../../ui/usersTable";
+import Loader from "../../common/loader";
+import TextField from "../../common/form/textField";
 
 const UsersList = () => {
     const [users, setUsers] = useState();
