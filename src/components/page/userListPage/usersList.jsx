@@ -29,6 +29,7 @@ const UsersList = () => {
     };
 
     const handleSearchChange = ({ target }) => {
+        setSelectedProf(undefined);
         setSearchValue(target.value.trim());
     };
 
@@ -43,6 +44,7 @@ const UsersList = () => {
     };
 
     const handleProfessionSelect = (item) => {
+        if (searchValue !== "") setSearchValue("");
         setSelectedProf(item);
     };
 
@@ -60,25 +62,19 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-        setSearchValue("");
-    }, [selectedProf]);
-
-    useEffect(() => {
-        if (searchValue && selectedProf) {
-            setSelectedProf();
-        }
-    }, [searchValue]);
+    }, [selectedProf, searchValue]);
 
     if (users) {
-        const searchedUsers = users.filter(
-            (user) =>
-                user.name.toLowerCase().indexOf(searchValue.toLowerCase()) !==
-                -1
-        );
-
-        const filteredUsers = selectedProf
+        const filteredUsers = searchValue
+            ? users.filter(
+                  (user) =>
+                      user.name
+                          .toLowerCase()
+                          .indexOf(searchValue.toLowerCase()) !== -1
+              )
+            : selectedProf
             ? users.filter((user) => _.isEqual(user.profession, selectedProf))
-            : searchedUsers;
+            : users;
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
